@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, to_timestamp, round as spark_round, regexp_replace
+from pyspark.sql.functions import col, to_timestamp, round as spark_round, regexp_replace, when
 from pyspark.sql.types import DoubleType
 
 def load_and_clean(spark: SparkSession, path: str):
@@ -13,6 +13,11 @@ def load_and_clean(spark: SparkSession, path: str):
 
     # Conversion de la date
     df = df.withColumn("InvoiceDate", to_timestamp(col("InvoiceDate"), "dd/MM/yyyy HH:mm"))
+
+    # Identifier et filtrer les annulations (InvoiceNo commencant par C)
+    df = df.withColumn("IsCancelled", when(col("InvoiceNo").startswith("C"), True).otherwise(False))
+    df = df.filter(col("IsCancelled") == False).drop("IsCancelled")
+    print(f"[INFO] Lignes apres suppression des annulations : {df.count()}")
 
     # Suppression des lignes sans CustomerID ou Description
     df = df.dropna(subset=["CustomerID", "Description"])
