@@ -1,5 +1,9 @@
 from pyspark.sql import SparkSession
 from cleaning import load_and_clean
+from analysis import run_analysis
+from streaming import run_streaming
+
+def main():
 from streaming import run_streaming
 
 def main():
@@ -21,6 +25,15 @@ def main():
 
     print("\nApercu des donnees nettoyees :")
     df.show(5, truncate=False)
+    df.printSchema()
+
+    # Cache du DataFrame pour éviter de relire HDFS à chaque analyse
+    df.cache()
+
+    # Analyses métier et KPIs
+    run_analysis(df)
+
+    # Streaming temps réel
 
     print(f"\nSchema final :")
     df.printSchema()
@@ -31,4 +44,5 @@ def main():
     spark.stop()
 
 if __name__ == "__main__":
+    main()
     main()

@@ -1,6 +1,6 @@
-# Spark Retail — Sales Data Analytics
+# Spark Retail ï¿½ Sales Data Analytics
 
-Projet Big Data — EFREI ING2
+Projet Big Data ï¿½ EFREI ING2
 Analyse des ventes e-commerce avec Apache Spark, PySpark et Docker.
 
 ## Dataset
@@ -14,17 +14,21 @@ https://archive.ics.uci.edu/dataset/352/online+retail
 - Spark Structured Streaming (extension)
 
 ## Structure
+```bash
 spark-retail/
 +-- docker-compose.yml
 +-- app/
-¦   +-- main.py         # Point d'entrée
-¦   +-- cleaning.py     # Nettoyage des données
-¦   +-- analysis.py     # Analyses métier & KPIs
-¦   +-- streaming.py    # Extension streaming
+ï¿½   +-- main.py         # Point d'entrï¿½e
+ï¿½   +-- cleaning.py     # Nettoyage des donnï¿½es
+ï¿½   +-- analysis.py     # Analyses mï¿½tier & KPIs
+ï¿½   +-- streaming.py    # Extension streaming
 +-- hdfs/
-¦   +-- setup.sh        # Configuration HDFS
-+-- data/               # Dataset local (non versionné)
+ï¿½   +-- setup.sh        # Configuration HDFS
++-- data/               # Dataset local (non versionnï¿½)
+```
 
 ## Lancer le projet
+```bash
 docker-compose up -d
 docker exec spark-master spark-submit /app/main.py
+```
