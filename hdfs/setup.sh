@@ -1,15 +1,26 @@
 #!/bin/bash
 
-echo "Attente du démarrage du namenode..."
-sleep 15
+echo "Attente du demarrage du namenode..."
+sleep 20
 
-echo "Création du répertoire HDFS /data..."
-hdfs dfs -mkdir -p /data
+echo "Creation des repertoires HDFS..."
+hdfs dfs -mkdir -p /data/batch
+hdfs dfs -mkdir -p /data/stream
+hdfs dfs -mkdir -p /data/output
 
-echo "Upload du dataset dans HDFS..."
-hdfs dfs -put /data/online_retail.csv /data/online_retail.csv
+echo "Upload du dataset dans HDFS (batch)..."
+hdfs dfs -put -f /data/online_retail.csv /data/batch/online_retail.csv
 
-echo "Vérification..."
+echo "Verification..."
 hdfs dfs -ls /data
+hdfs dfs -ls /data/batch
 
-echo "Setup HDFS terminé."
+echo ""
+echo "=== Rapport de replication HDFS ==="
+hdfs dfsadmin -report
+
+echo ""
+echo "=== Localisation des blocs du dataset ==="
+hdfs fsck /data/batch/online_retail.csv -files -blocks -locations
+
+echo "Setup HDFS termine."
